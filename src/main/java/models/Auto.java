@@ -2,6 +2,7 @@ package models;
 
 import javax.persistence.*;
 
+
 @Entity
 @Table(name = "autos")
 public class Auto {

@@ -12,20 +12,19 @@ import org.hibernate.cfg.Configuration;
 public class HibernateSessionFactoryUtil {
     public static SessionFactory sessionFactory;
 
-    protected void setUp() throws Exception {
-        // A SessionFactory is set up once for an application!
-        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                .configure() // configures settings from hibernate.cfg.xml
-                .build();
-        try {
-            sessionFactory = new MetadataSources( registry ).buildMetadata().buildSessionFactory();
+    public static SessionFactory setUp()  {
+        if (sessionFactory == null) {
+            try {
+                Configuration configuration = new Configuration().configure();
+                configuration.addAnnotatedClass(User.class);
+                configuration.addAnnotatedClass(Auto.class);
+                StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
+                sessionFactory = configuration.buildSessionFactory(builder.build());
+            } catch (Exception e) {
+                System.out.println("Исключение!" + e);
+            }
         }
-        catch (Exception e) {
-            // The registry would be destroyed by the SessionFactory, but we had trouble building the SessionFactory
-            // so destroy it manually.
-            System.out.println("Exception");
-            StandardServiceRegistryBuilder.destroy( registry );
-        }
+        return sessionFactory;
     }
 }
 

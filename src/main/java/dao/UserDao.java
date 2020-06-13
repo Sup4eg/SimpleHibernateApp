@@ -9,11 +9,11 @@ import java.util.List;
 
 public class UserDao {
     public User findById(int id) {
-        return HibernateSessionFactoryUtil.sessionFactory.openSession().get(User.class, id);
+        return HibernateSessionFactoryUtil.setUp().openSession().get(User.class, id);
     }
 
     public void save(User user) {
-        Session session = HibernateSessionFactoryUtil.sessionFactory.openSession();
+        Session session = HibernateSessionFactoryUtil.setUp().openSession();
         Transaction tx1 = session.beginTransaction();
         session.save(user);
         tx1.commit();
@@ -21,7 +21,7 @@ public class UserDao {
     }
 
     public void update(User user) {
-        Session session = HibernateSessionFactoryUtil.sessionFactory.openSession();
+        Session session = HibernateSessionFactoryUtil.setUp().openSession();
         Transaction tx1 = session.beginTransaction();
         session.update(user);
         tx1.commit();
@@ -29,7 +29,7 @@ public class UserDao {
     }
 
     public void delete(User user) {
-        Session session = HibernateSessionFactoryUtil.sessionFactory.openSession();
+        Session session = HibernateSessionFactoryUtil.setUp().openSession();
         Transaction tx1 = session.beginTransaction();
         session.delete(user);
         tx1.commit();
@@ -37,11 +37,11 @@ public class UserDao {
     }
 
     public Auto findAutoById(int id) {
-        return HibernateSessionFactoryUtil.sessionFactory.openSession().get(Auto.class, id);
+        return HibernateSessionFactoryUtil.setUp().openSession().get(Auto.class, id);
     }
 
     public List<User> findAll() {
-        List<User> users = (List<User>) HibernateSessionFactoryUtil.sessionFactory.openSession().createQuery("From User").list();
+        List<User> users = (List<User>) HibernateSessionFactoryUtil.setUp().openSession().createQuery("From User").list();
         return users;
     }
 }
